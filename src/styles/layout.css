@@ -1,0 +1,586 @@
+/**
+ * Layout: wordmark, app shell, authentication split panel, page containers.
+ */
+
+/* ── Wordmark ────────────────────────────────────────────────────────────── */
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: inherit;
+  text-decoration: none;
+}
+
+/*
+ * The official seal is a circular emblem on white, so the tile stays white in
+ * both variants and the inline SVG fallback inherits `color` for its strokes.
+ */
+.wordmark__seal {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2.375rem;
+  height: 2.375rem;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  background-color: var(--cgci-white);
+  color: var(--cgci-green-700);
+  box-shadow: var(--shadow-xs);
+}
+
+.wordmark__seal--inverse {
+  color: var(--cgci-green-800);
+}
+
+.wordmark__seal-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.wordmark__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  min-width: 0;
+}
+
+.wordmark__institution {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  font-weight: 600;
+  letter-spacing: var(--tracking-tight);
+  white-space: nowrap;
+}
+
+.wordmark__portal {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.wordmark--inverse .wordmark__institution {
+  color: var(--text-inverse);
+}
+
+.wordmark--inverse .wordmark__portal {
+  color: var(--text-inverse-muted);
+}
+
+@media (min-width: 40rem) {
+  .wordmark__seal {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .wordmark__institution {
+    font-size: var(--text-lg);
+  }
+}
+
+/* ── Authentication layout ───────────────────────────────────────────────── */
+
+.auth-layout {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+/* Compact institutional band on small screens. */
+.auth-layout__brand {
+  background-color: var(--surface-brand);
+  color: var(--text-inverse);
+  padding: var(--space-4) var(--gutter);
+}
+
+.auth-layout__brand-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  max-width: var(--content-max);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.auth-layout__context {
+  display: none;
+}
+
+.auth-layout__main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: var(--space-8) var(--gutter) var(--space-10);
+}
+
+.auth-layout__panel {
+  width: 100%;
+  max-width: var(--content-narrow);
+}
+
+.auth-layout__panel--wide {
+  max-width: var(--content-max);
+}
+
+/* Full two-column treatment once there is room for it. */
+@media (min-width: 64rem) {
+  .auth-layout {
+    flex-direction: row;
+    min-height: 100dvh;
+  }
+
+  .auth-layout__brand {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    width: 41%;
+    max-width: 34rem;
+    padding: var(--space-12) var(--space-10);
+  }
+
+  .auth-layout__brand-inner {
+    display: block;
+    margin: 0;
+  }
+
+  /* The full institutional statement is hidden on mobile, where it would push
+     the login form below the fold. */
+  .auth-layout__context {
+    display: block;
+    margin-top: var(--space-12);
+  }
+
+  .auth-layout__main {
+    align-items: center;
+    padding: var(--space-12) var(--space-10);
+  }
+
+  .auth-layout__panel {
+    max-width: 26rem;
+  }
+
+  .auth-layout__panel--wide {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 90rem) {
+  .auth-layout__brand {
+    width: 38%;
+    padding: var(--space-16) var(--space-12);
+  }
+
+  .auth-layout__main {
+    padding: var(--space-16) var(--space-12);
+  }
+}
+
+/* ── Institutional statement (desktop brand panel) ───────────────────────── */
+
+.brand-statement__eyebrow {
+  color: var(--cgci-gold-400);
+  font-size: var(--text-xs);
+  font-weight: 650;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+}
+
+.brand-statement__title {
+  margin-top: var(--space-4);
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 600;
+  color: var(--text-inverse);
+}
+
+.brand-statement__body {
+  margin-top: var(--space-4);
+  max-width: 34ch;
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+  color: var(--text-inverse-muted);
+}
+
+/* The formalisation, shown to the left of the form on wide screens. */
+.brand-formula {
+  margin-top: var(--space-10);
+  padding: var(--space-5);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-md);
+  background-color: rgba(0, 0, 0, 0.16);
+}
+
+.brand-formula__caption {
+  font-size: var(--text-xs);
+  font-weight: 650;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--cgci-gold-400);
+}
+
+.brand-formula__expr {
+  margin-top: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--text-inverse);
+  overflow-wrap: anywhere;
+}
+
+.brand-formula__legend {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: var(--text-xs);
+  line-height: var(--leading-relaxed);
+  color: var(--text-inverse-muted);
+}
+
+.brand-formula__legend dt {
+  color: var(--text-inverse);
+  font-weight: 600;
+}
+
+.brand-formula__legend dd {
+  margin: 0 0 var(--space-2);
+}
+
+.brand-formula__legend dd:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Page container ──────────────────────────────────────────────────────── */
+
+.page {
+  flex: 1;
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-8) var(--gutter) var(--space-12);
+}
+
+.page--narrow {
+  max-width: var(--content-reading);
+}
+
+.page__header {
+  margin-bottom: var(--space-8);
+}
+
+.page__eyebrow {
+  color: var(--cgci-green-600);
+}
+
+.page__title {
+  margin-top: var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+}
+
+.page__lede {
+  margin-top: var(--space-3);
+  max-width: 62ch;
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+
+/* ── App shell (authenticated) ───────────────────────────────────────────── */
+
+.app-shell {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.appbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background-color: var(--cgci-white);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.appbar__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  height: var(--appbar-height);
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.appbar__spacer {
+  flex: 1;
+}
+
+.appbar__identity {
+  display: none;
+}
+
+.appbar__signout {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2.25rem;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background-color: var(--cgci-white);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+}
+
+.appbar__signout:hover:not(:disabled) {
+  background-color: var(--cgci-green-50);
+  border-color: var(--cgci-green-300);
+  color: var(--cgci-green-700);
+}
+
+.appbar__signout:focus-visible {
+  outline: 2px solid var(--cgci-green-600);
+  outline-offset: 2px;
+}
+
+.appbar__signout-label {
+  display: none;
+}
+
+/* Primary navigation sits on its own full-width row on small screens, which
+   keeps both destinations reachable without a disclosure menu. */
+.appnav {
+  border-top: 1px solid var(--border-subtle);
+  background-color: var(--cgci-white);
+}
+
+.appnav__list {
+  display: flex;
+  gap: var(--space-1);
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.appnav__list::-webkit-scrollbar {
+  display: none;
+}
+
+.appnav__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2.75rem;
+  padding: 0 var(--space-3);
+  border-bottom: 2px solid transparent;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out);
+}
+
+.appnav__link:hover {
+  color: var(--cgci-green-700);
+}
+
+.appnav__link[aria-current='page'] {
+  color: var(--cgci-green-700);
+  border-bottom-color: var(--cgci-green-600);
+}
+
+.appnav__link:focus-visible {
+  outline: 2px solid var(--cgci-green-600);
+  outline-offset: -2px;
+  border-radius: var(--radius-xs);
+}
+
+.appnav__icon {
+  display: none;
+}
+
+@media (min-width: 48rem) {
+  .appnav {
+    border-top: none;
+    background-color: transparent;
+  }
+
+  .appnav__list {
+    padding: 0;
+    overflow: visible;
+  }
+
+  .appnav__link {
+    min-height: 2.25rem;
+  }
+
+  .appbar__identity {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-width: 0;
+    padding-right: var(--space-4);
+    border-right: 1px solid var(--border-subtle);
+    margin-right: var(--space-1);
+  }
+
+  .appbar__avatar {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 2.125rem;
+    height: 2.125rem;
+    border-radius: var(--radius-pill);
+    background-color: var(--cgci-green-100);
+    color: var(--cgci-green-700);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .appbar__identity-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+    min-width: 0;
+  }
+
+  .appbar__identity-name {
+    font-size: var(--text-sm);
+    font-weight: 650;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 12rem;
+  }
+
+  .appbar__identity-id {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+
+  .appbar__signout-label {
+    display: inline;
+  }
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+
+.app-footer {
+  border-top: 1px solid var(--border-subtle);
+  background-color: var(--cgci-white);
+}
+
+.app-footer__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-5) var(--gutter);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.app-footer__institution {
+  font-weight: 650;
+  color: var(--text-secondary);
+}
+
+.app-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+}
+
+/* Keep the secondary navigation reachable by thumb on a phone. */
+.app-footer__links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: var(--space-1) var(--space-2);
+  font-weight: 550;
+}
+
+@media (min-width: 48rem) {
+  .app-footer__inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+/* ── Card grid ───────────────────────────────────────────────────────────── */
+
+.card-grid {
+  display: grid;
+  gap: var(--space-5);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 48rem) {
+  .card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-6);
+  }
+}
+
+@media (min-width: 80rem) {
+  .card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* The session panel pairs with the identity card rather than starting a third column. */
+  .card-grid--two-up {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ── Full-bleed loading state ────────────────────────────────────────────── */
+
+.boot-screen {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-5);
+  min-height: 100dvh;
+  padding: var(--space-8);
+  text-align: center;
+  background-color: var(--surface-page);
+}
+
+.boot-screen__title {
+  font-size: var(--text-md);
+  font-weight: 650;
+  color: var(--text-secondary);
+}
+
+.boot-screen__message {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  max-width: 34ch;
+}
+
+.boot-screen__mark {
+  color: var(--cgci-green-600);
+}

@@ -1,0 +1,38 @@
+{
+  "name": "cgci-student-login",
+  "private": true,
+  "version": "1.0.0",
+  "description": "CGCI Student Login - Firebase Authentication gateway for the CGCI student portal. Discrete Structures 1 Final Project.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc -b",
+    "seed": "node scripts/seed-demo-students.mjs",
+    "deploy": "npm run build && firebase deploy",
+    "emulators": "firebase emulators:start"
+  },
+  "dependencies": {
+    "firebase": "^13.0.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.4"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.81.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0",
+    "vitest": "^5.0.3"
+  },
+  "overrides": {
+    "@grpc/grpc-js": "^1.14.5"
+  }
+}

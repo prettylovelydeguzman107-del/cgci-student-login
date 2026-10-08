@@ -1,0 +1,19 @@
+# Normalise line endings so the repository does not churn between platforms.
+* text=auto eol=lf
+
+# Windows and Office files that must stay in their native form.
+*.ps1   text eol=crlf
+*.bat   text eol=crlf
+*.cmd   text eol=crlf
+
+# Binary assets — never rewrite.
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.webp  binary
+*.ico   binary
+*.woff  binary
+*.woff2 binary
+
+# Lockfiles: keep Git out of the merge machinery entirely.
+package-lock.json -diff -merge

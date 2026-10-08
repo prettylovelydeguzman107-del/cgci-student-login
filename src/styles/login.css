@@ -1,0 +1,685 @@
+/**
+ * Authentication screens: login form, predicate trace, demo panel.
+ * Mobile-first; every block is single-column until 1024px.
+ */
+
+/* ── Login card ──────────────────────────────────────────────────────────── */
+
+.login {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.login__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.login__title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  letter-spacing: var(--tracking-tight);
+}
+
+.login__lede {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+  text-wrap: pretty;
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface-raised);
+  box-shadow: var(--shadow-md);
+}
+
+.login__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: stretch;
+}
+
+.login__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-4);
+  font-size: var(--text-sm);
+}
+
+/* Inline text links are exempt from the 44px rule, but these are the only way
+   out of a failed sign-in on a phone — give them a comfortable target anyway. */
+.login__links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-1);
+  font-weight: 600;
+}
+
+.login__aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.login__directory-link {
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+@media (min-width: 40rem) {
+  .login__form {
+    padding: var(--space-6);
+  }
+}
+
+/* ── Predicate trace ─────────────────────────────────────────────────────── */
+
+.trace {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface-raised);
+  overflow: hidden;
+}
+
+.trace__summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  cursor: pointer;
+  list-style: none;
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+.trace__summary::-webkit-details-marker {
+  display: none;
+}
+
+.trace__summary:hover {
+  background-color: var(--cgci-green-50);
+}
+
+.trace__summary:focus-visible {
+  outline: 2px solid var(--cgci-green-600);
+  outline-offset: -2px;
+}
+
+.trace__summary-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.trace__summary-title {
+  font-size: var(--text-sm);
+  font-weight: 650;
+}
+
+.trace__summary-subtitle {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.trace__chevron {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.trace[open] .trace__chevron {
+  transform: rotate(180deg);
+}
+
+.trace__body {
+  padding: 0 var(--space-4) var(--space-4);
+  border-top: 1px solid var(--border-subtle);
+  padding-top: var(--space-4);
+}
+
+.trace__formula {
+  margin: 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background-color: var(--surface-sunken);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: var(--leading-relaxed);
+  color: var(--cgci-green-800);
+  text-align: center;
+  overflow-x: auto;
+}
+
+.trace__idle {
+  margin-top: var(--space-4);
+  font-size: var(--text-xs);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+
+.trace__subject {
+  margin-top: var(--space-4);
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+
+.trace__value {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-primary);
+  overflow-wrap: anywhere;
+}
+
+.trace__symbol {
+  font-family: var(--font-mono);
+  font-style: italic;
+  color: var(--cgci-green-700);
+}
+
+.trace__conjuncts {
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.trace__conjunct {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background-color: var(--cgci-white);
+}
+
+.trace__marker {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 1.35rem;
+  height: 1.35rem;
+  margin-top: 0.1rem;
+  border-radius: 50%;
+}
+
+.trace__marker--true {
+  background-color: var(--color-success-bg);
+  color: var(--color-success-fg);
+  box-shadow: inset 0 0 0 1px var(--color-success-border);
+}
+
+.trace__marker--false {
+  background-color: var(--color-error-bg);
+  color: var(--color-error-fg);
+  box-shadow: inset 0 0 0 1px var(--color-error-border);
+}
+
+.trace__marker--pending {
+  background-color: var(--cgci-ink-100);
+  color: var(--text-muted);
+  box-shadow: inset 0 0 0 1px var(--cgci-ink-200);
+}
+
+.trace__conjunct-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.trace__conjunct-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.trace__expression {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--cgci-green-800);
+}
+
+.trace__owner {
+  padding: 0.05rem var(--space-2);
+  border-radius: var(--radius-xs);
+  background-color: var(--cgci-ink-100);
+  font-size: 0.6875rem;
+  font-weight: 650;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.trace__conjunct-label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.trace__conjunct-note {
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.trace__result {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid;
+}
+
+.trace__result--true {
+  background-color: var(--color-success-bg);
+  border-color: var(--color-success-border);
+  color: var(--color-success-fg);
+}
+
+.trace__result--false {
+  background-color: var(--color-error-bg);
+  border-color: var(--color-error-border);
+  color: var(--color-error-fg);
+}
+
+.trace__result-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.trace__result-value {
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  font-weight: 700;
+}
+
+.trace__result-note {
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+  opacity: 0.92;
+}
+
+.trace__shortcircuit {
+  margin-top: var(--space-3);
+  padding: var(--space-3);
+  border-left: 3px solid var(--cgci-gold-400);
+  background-color: var(--cgci-gold-100);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: var(--text-xs);
+  line-height: var(--leading-relaxed);
+  color: var(--cgci-gold-600);
+}
+
+.trace__shortcircuit code {
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+.trace__stats {
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.trace__stats-title {
+  font-size: var(--text-xs);
+  font-weight: 650;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.trace__stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.trace__stats-grid > div {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  background-color: var(--surface-sunken);
+}
+
+.trace__stats-grid dt {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.trace__stats-grid dd {
+  margin: 0.1rem 0 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-md);
+  font-weight: 700;
+  color: var(--cgci-green-800);
+}
+
+.trace__stats-note {
+  margin-top: var(--space-3);
+  font-size: var(--text-xs);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+
+@media (min-width: 30rem) {
+  .trace__stats-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.trace__legend {
+  margin-top: var(--space-4);
+}
+
+.trace__legend-summary {
+  font-size: var(--text-xs);
+  font-weight: 650;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.trace__table {
+  width: 100%;
+  margin-top: var(--space-3);
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+.trace__table th,
+.trace__table td {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border-subtle);
+  text-align: center;
+}
+
+.trace__table th {
+  background-color: var(--surface-sunken);
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.trace__table-amp {
+  color: var(--cgci-green-600);
+}
+
+.trace__table-true {
+  background-color: var(--color-success-bg);
+  color: var(--color-success-fg);
+  font-weight: 700;
+}
+
+.trace__table-false {
+  background-color: var(--cgci-ink-100);
+  color: var(--text-muted);
+}
+
+/* ── Demo accounts ───────────────────────────────────────────────────────── */
+
+.demo {
+  border: 1px dashed var(--cgci-green-300);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface-sunken);
+  overflow: hidden;
+}
+
+.demo__toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: 3rem;
+  padding: var(--space-3) var(--space-4);
+  border: none;
+  background: none;
+  text-align: left;
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+.demo__toggle:hover {
+  background-color: var(--cgci-green-100);
+}
+
+.demo__toggle:focus-visible {
+  outline: 2px solid var(--cgci-green-600);
+  outline-offset: -2px;
+}
+
+.demo__toggle-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  flex: 1;
+  min-width: 0;
+  font-size: var(--text-sm);
+  font-weight: 650;
+}
+
+.demo__badge {
+  padding: 0.1rem var(--space-2);
+  border-radius: var(--radius-xs);
+  background-color: var(--cgci-gold-100);
+  color: var(--cgci-gold-600);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.demo__toggle-chevron {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  background-color: var(--cgci-white);
+  color: var(--cgci-green-700);
+  font-size: var(--text-md);
+  font-weight: 600;
+  line-height: 1;
+  box-shadow: var(--shadow-xs);
+}
+
+.demo__panel {
+  padding: 0 var(--space-4) var(--space-4);
+}
+
+.demo__note {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+  color: var(--text-secondary);
+}
+
+.demo__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.demo__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background-color: var(--cgci-white);
+}
+
+.demo__item-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.demo__id {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--cgci-green-800);
+  letter-spacing: 0.02em;
+}
+
+.demo__name {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.demo__item-side {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.demo__use {
+  --btn-height: 2.125rem;
+  padding: 0 var(--space-3);
+  font-size: var(--text-xs);
+  flex-shrink: 0;
+}
+
+.demo__password {
+  margin-top: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  background-color: var(--cgci-white);
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+
+.demo__password code {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--cgci-green-800);
+  user-select: all;
+}
+
+.demo__scenarios {
+  margin: var(--space-3) 0 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  line-height: var(--leading-snug);
+  color: var(--text-secondary);
+}
+
+.demo__scenarios strong {
+  color: var(--text-primary);
+  font-weight: 650;
+}
+
+.demo__scenarios code {
+  font-family: var(--font-mono);
+  padding: 0.05rem 0.25rem;
+  border-radius: var(--radius-xs);
+  background-color: var(--cgci-white);
+}
+
+@media (min-width: 30rem) {
+  .demo__item {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .demo__item-main {
+    gap: 0.15rem;
+  }
+}
+
+/* ── Password reset / directory pages ────────────────────────────────────── */
+
+.form-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.form-page__intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.form-page__title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+}
+
+.form-page__lede {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+
+.form-page__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface-raised);
+  box-shadow: var(--shadow-md);
+}
+
+@media (min-width: 40rem) {
+  .form-page__card {
+    padding: var(--space-6);
+  }
+}
+
+.form-page__footer {
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+/* Comfortable touch target — this is the main way back to the login form. */
+.form-page__footer a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-3);
+  font-weight: 600;
+}

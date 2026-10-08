@@ -1,0 +1,80 @@
+rules_version = '2';
+
+/**
+ * CGCI Student Login — Firestore Security Rules
+ * ---------------------------------------------------------------------------
+ * Design contract (see docs/SECURITY.md):
+ *
+ *   students/{userId}           Canonical, PRIVATE student record.
+ *                               Document ID === Firebase Auth UID.
+ *
+ *   studentDirectory/{studentId}
+ *                               Public-safe projection that backs the
+ *                               "List of registered users" feature.
+ *                               Document ID === the Student ID, i.e. the
+ *                               key of the Hash Map in the CS model.
+ *                               Contains NO email, NO uid and NO credential
+ *                               material, so it can be read publicly.
+ *
+ * The separation exists because Firestore rules cannot strip individual
+ * fields from a document on read. Rather than trusting every future rule
+ * edit to keep leaking nothing, the directory is a physically separate
+ * collection whose payload is safe by construction.
+ *
+ * Admin/provisioning writes go through the Firebase Admin SDK (which
+ * bypasses these rules). The client may never create, delete, or
+ * re-provision either collection.
+ * ---------------------------------------------------------------------------
+ */
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── helpers ───────────────────────────────────────────────────────────
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Fields the owner is permitted to touch on their own record.
+    // Deliberately a one-item whitelist: the client may stamp a sign-in
+    // timestamp, and nothing else. Identity, programme and — above all —
+    // `status` are immutable from the browser, which is what stops a
+    // disabled student from re-enabling themselves.
+    function isAllowedSelfUpdate() {
+      return request.resource.data
+               .diff(resource.data)
+               .affectedKeys()
+               .hasOnly(['lastLoginAt'])
+             && request.resource.data.lastLoginAt is timestamp;
+    }
+
+    // ── students/{userId} : private, owner-scoped ──────────────────────────
+    match /students/{userId} {
+      allow get, list: if isOwner(userId);
+
+      allow create: if false;
+      allow delete: if false;
+
+      allow update: if isOwner(userId) && isAllowedSelfUpdate();
+
+      // Sub-collections are not part of this system's scope; deny by default.
+      match /{document=**} {
+        allow read, write: if false;
+      }
+    }
+
+    // ── studentDirectory/{studentId} : public, read-only ───────────────────
+    match /studentDirectory/{studentId} {
+      allow get, list: if true;
+      allow write: if false;
+    }
+
+    // ── anything not modelled above is denied ──────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
