@@ -10,30 +10,9 @@
     "trailingSlash": false,
     "headers": [
       {
-        "source": "/assets/**",
+        "_comment": "Security headers apply to EVERY response, including client-side routes such as /login and /dashboard. Firebase rewrites those to /index.html, so scoping these headers to '/index.html' alone silently skips them. Cache-Control is deliberately absent here; the rules below own caching.",
+        "source": "**",
         "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "public, max-age=31536000, immutable"
-          }
-        ]
-      },
-      {
-        "source": "**/*.@(js|css)",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "public, max-age=604800"
-          }
-        ]
-      },
-      {
-        "source": "/index.html",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-cache, no-store, must-revalidate"
-          },
           {
             "key": "X-Content-Type-Options",
             "value": "nosniff"
@@ -51,8 +30,55 @@
             "value": "camera=(), microphone=(), geolocation=(), interest-cohort=()"
           },
           {
+            "key": "Cross-Origin-Opener-Policy",
+            "value": "same-origin-allow-popups"
+          },
+          {
+            "key": "Strict-Transport-Security",
+            "value": "max-age=31536000; includeSubDomains"
+          },
+          {
             "key": "Content-Security-Policy",
             "value": "default-src 'self'; script-src 'self' https://apis.google.com https://www.gstatic.com; connect-src 'self' https://*.googleapis.com https://securetoken.googleapis.com https://identitytoolkit.googleapis.com https://firestore.googleapis.com https://firebaseinstallations.googleapis.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; frame-src 'self' https://*.firebaseapp.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests"
+          }
+        ]
+      },
+      {
+        "_comment": "Document and client-side route responses must never be cached, so a deploy takes effect immediately on a hard refresh.",
+        "source": "**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, no-store, must-revalidate"
+          }
+        ]
+      },
+      {
+        "source": "/index.html",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, no-store, must-revalidate"
+          }
+        ]
+      },
+      {
+        "_comment": "Static media copied from public/ is not content-hashed, so it gets a week rather than a year.",
+        "source": "**/*.@(js|css|png|jpg|jpeg|svg|ico|webp|woff|woff2)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=604800"
+          }
+        ]
+      },
+      {
+        "_comment": "Everything Vite emits into /assets is content-hashed, so it can be cached immutably for a year. Listed last so it wins over the rule above for the same header.",
+        "source": "/assets/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=31536000, immutable"
           }
         ]
       }
