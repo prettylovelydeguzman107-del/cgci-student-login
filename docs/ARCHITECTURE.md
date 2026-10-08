@@ -40,12 +40,19 @@ src/
 │   ├── authService.ts         owns R; observe / sign in / sign out / reset
 │   ├── studentService.ts      private records; lastLoginAt only
 │   └── directoryService.ts    public roster → CredentialRegistry
+├── config/
+│   ├── demo.ts                sample-account password and notice
+│   └── project.ts             project metadata, incl. the developer credit
 ├── contexts/
 │   ├── authStore.ts           context object + value types
 │   └── AuthContext.tsx        the provider and the sign-in orchestration
 ├── routes/                    ProtectedRoute, GuestRoute, route table
 ├── hooks/                     useAuth, useMediaQuery, useDocumentTitle
-├── components/                ui · layout · auth · (student surfaces in pages/)
+├── components/
+│   ├── ui/                    Button, TextField, Alert, Card, DataList, …
+│   ├── layout/                AppShell, AuthLayout, PortalFooter, Wordmark, …
+│   ├── auth/                  PasswordField, PredicateTrace, DemoCredentials
+│   └── ...
 ├── pages/                     Login, ForgotPassword, RegisteredStudents,
 │                              Dashboard, Profile, NotFound
 ├── styles/                    tokens → base → ui → layout → login → dashboard
@@ -175,7 +182,7 @@ tokens.css      design tokens; brand greens, neutrals, semantic status, spacing,
                 type scale, radii, elevation, breakpoints
 base.css        reset, element defaults, focus rings, .sr-only, skip link
 ui.css          Button, TextField, Alert, Badge, Card, DataList, Spinner
-layout.css      wordmark, auth split panel, app shell, page containers
+layout.css      wordmark, auth split panel, app shell, footer credit, page containers
 login.css       login form, predicate trace, demo panel
 dashboard.css   dashboard, profile, roster
 ```

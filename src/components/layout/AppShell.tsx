@@ -2,6 +2,7 @@ import { NavLink, Link } from 'react-router-dom'
 import type { ReactNode } from 'react'
 
 import { Wordmark } from './Wordmark'
+import { PortalFooter } from './PortalFooter'
 import { useAuth } from '../../hooks/useAuth'
 import { initials } from '../../utils/format'
 
@@ -66,18 +67,12 @@ export function AppShell({ children }: { children: ReactNode }) {
         {children}
       </main>
 
-      <footer className="app-footer">
-        <div className="app-footer__inner">
-          <p>
-            <span className="app-footer__institution">Core Gateway College Inc.</span> · Student Portal
-            Authentication
-          </p>
-          <p className="app-footer__links">
-            <Link to="/dashboard">Dashboard</Link>
-            <Link to="/profile">Profile</Link>
-          </p>
-        </div>
-      </footer>
+      <PortalFooter
+        links={[
+          { to: '/dashboard', label: 'Dashboard' },
+          { to: '/profile', label: 'Profile' },
+        ]}
+      />
     </div>
   )
 }

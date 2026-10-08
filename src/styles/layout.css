@@ -86,9 +86,16 @@
 
 .auth-layout {
   display: flex;
-  flex: 1;
   flex-direction: column;
   min-height: 100dvh;
+}
+
+/* Keeps the footer credit full-width instead of becoming a third column. */
+.auth-layout__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
 }
 
 /* Compact institutional band on small screens. */
@@ -130,9 +137,8 @@
 
 /* Full two-column treatment once there is room for it. */
 @media (min-width: 64rem) {
-  .auth-layout {
+  .auth-layout__body {
     flex-direction: row;
-    min-height: 100dvh;
   }
 
   .auth-layout__brand {
@@ -485,6 +491,7 @@
 /* ── Footer ──────────────────────────────────────────────────────────────── */
 
 .app-footer {
+  flex-shrink: 0;
   border-top: 1px solid var(--border-subtle);
   background-color: var(--cgci-white);
 }
@@ -492,17 +499,21 @@
 .app-footer__inner {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-3);
   max-width: var(--content-max);
   margin: 0 auto;
-  padding: var(--space-5) var(--gutter);
-  font-size: var(--text-xs);
-  color: var(--text-muted);
+  padding: var(--space-5) var(--gutter) var(--space-2);
 }
 
-.app-footer__institution {
-  font-weight: 650;
-  color: var(--text-secondary);
+.app-footer__brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.app-footer__tagline {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
 }
 
 .app-footer__links {
@@ -520,12 +531,69 @@
   font-weight: 550;
 }
 
+/* Developer credit — visible on every screen, including the login page. */
+.app-footer__credit {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-2) var(--gutter) var(--space-5);
+  font-size: var(--text-xs);
+  line-height: var(--leading-relaxed);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.app-footer__credit-label {
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.app-footer__credit-names {
+  font-weight: 650;
+  color: var(--text-primary);
+}
+
+.app-footer__credit-sep {
+  margin: 0 0.45em;
+  color: var(--border-strong);
+}
+
+.app-footer__credit-course {
+  color: var(--text-muted);
+}
+
 @media (min-width: 48rem) {
   .app-footer__inner {
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
   }
+}
+
+/* Dark variant, for use against the institutional panel. */
+.app-footer--dark {
+  border-top-color: rgba(255, 255, 255, 0.14);
+  background-color: var(--surface-brand-deep);
+}
+
+.app-footer--dark .app-footer__tagline,
+.app-footer--dark .app-footer__credit {
+  color: var(--text-inverse-muted);
+}
+
+.app-footer--dark .app-footer__credit-label {
+  color: var(--text-inverse-muted);
+}
+
+.app-footer--dark .app-footer__credit-names {
+  color: var(--text-inverse);
+}
+
+.app-footer--dark .app-footer__credit-sep {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.app-footer--dark a {
+  color: var(--cgci-green-200);
 }
 
 /* ── Card grid ───────────────────────────────────────────────────────────── */

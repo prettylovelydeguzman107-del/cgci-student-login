@@ -4,6 +4,8 @@
 Discrete Structures 1 — Final Project
 Core Gateway College Inc.
 
+**Developers:** Pretty Lovely Deguzman · Kevin Malto
+
 A production-shaped authentication gateway that verifies whether a registered
 student can log into the CGCI student portal, implemented with Firebase and
 built to make the project's discrete-mathematics model visible in the running
@@ -15,6 +17,7 @@ application rather than only in a report.
 | **Firebase project** | `cgci-student-login` |
 | **Region** | `asia-southeast1` (Firestore) |
 | **Stack** | React 19 · Vite · TypeScript (strict) · React Router 7 · Firebase 13 |
+| **Developers** | Pretty Lovely Deguzman · Kevin Malto |
 
 ---
 
@@ -321,7 +324,20 @@ in under a second with no browser and no network.
 
 ---
 
-## 12. Licence and attribution
+## 12. Project team
+
+| Role | Developer |
+|---|---|
+| Development & documentation | Pretty Lovely Deguzman |
+| Development & documentation | Kevin Malto |
+
+The names are held in one place — `src/config/project.ts` — and rendered by
+`PortalFooter`, so the credit shown in the interface, in the documentation and in
+the generated PDF all read from the same source.
+
+---
+
+## 13. Licence and attribution
 
 Academic coursework for Core Gateway College Inc. The CGCI seal is the property
 of the institution and is used with permission for this project.
